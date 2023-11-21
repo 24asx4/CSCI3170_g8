@@ -51,6 +51,8 @@ public class Manager {
     }
     
     public void countTransaction(Connection con){
+        
+        // user input the range of years of experience
         Scanner sc = new Scanner(System.in);
         System.out.print("Type in the lower bound for years of experience: ");
         String lowerBound = sc.next();
@@ -58,8 +60,9 @@ public class Manager {
         String upperBound = sc.next();
         
         try{
-        
             Statement stmt = con.createStatement();
+            
+            // get query result
             ResultSet rs;
             rs = stmt.executeQuery(
                     "SELECT S.[Salesperson ID], S.[Salesperson Name], S.[Salesperson Experience], COUNT(T.[Transaction ID]) "
@@ -70,7 +73,8 @@ public class Manager {
                         + ") S " +
                     "INNER JOIN Transaction T ON T.[Salesperson ID] = S.[Salesperson ID] " +
                     "GROUP BY S.[Salesperson ID], S.[Salesperson Name], S.[Salesperson Experience];");
-            
+
+            // display query result
             System.out.println("| ID | Name | Years of Experience | Number of Transaction |");
             while(rs.next()){
                 System.out.println(
