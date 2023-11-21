@@ -1,6 +1,6 @@
 package salesSystem;
 import java.io.*;
-import java.sql.*
+import java.sql.*;
 import java.util.Scanner;
 
 public class Menu{
@@ -55,8 +55,10 @@ public class Menu{
             System.out.print("Enter Your Choice: ");
             Scanner input=new Scanner(System.in);
             this.choice=input.nextInt();
+            Manager manager=new Manager();
             switch (this.choice) {
                 case 1:
+                    manager.listSalesperson(con);
                     ;
                     break;
                 case 2:
