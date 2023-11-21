@@ -9,6 +9,7 @@ public class Menu{
         choice=0;
     }
     public void mainMenu(){
+        System.out.println();
         System.out.println("-----Main Menu-----");
         System.out.println("What kinds of operation would you like to perform?");
         System.out.println("1. Operations for administrator");
@@ -19,6 +20,7 @@ public class Menu{
     }
     public void salesPersonMenu(Connection con){
         while (this.choice==0){
+            System.out.println();
             System.out.println("-----Operations for salesperson menu-----");
             System.out.println("What kinds of operation would you like to perform?");
             System.out.println("1. Search for parts");
@@ -45,6 +47,7 @@ public class Menu{
     }
     public void managerMenu(Connection con){
         while (this.choice==0){
+            System.out.println();
             System.out.println("-----Operations for manager menu-----");
             System.out.println("What kinds of operation would you like to perform?");
             System.out.println("1. List all salespersons");
@@ -59,16 +62,15 @@ public class Menu{
             switch (this.choice) {
                 case 1:
                     manager.listSalesperson(con);
-                    ;
                     break;
                 case 2:
-                    ;
+                    manager.countTransaction(con);
                     break;
                 case 3:
-                    ;
+                    manager.listManufacturerOrderBySales(con);
                     break;
                 case 4:
-                    ;
+                    manager.listNPopular(con);
                     break;
                 case 5:
                     return;
@@ -81,6 +83,7 @@ public class Menu{
     }    
     public void adminMenu(Connection con){
         while (this.choice==0){
+            System.out.println();
             System.out.println("-----Operations for administrator menu-----");
             System.out.println("What kinds of operation would you like to perform?");
             System.out.println("1. Create all tables");
@@ -112,6 +115,5 @@ public class Menu{
                     break;
             }
         }
-    }
-        
+    }       
 }
