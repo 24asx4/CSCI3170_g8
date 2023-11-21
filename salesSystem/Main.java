@@ -43,7 +43,7 @@ public class Main {
                     menu.salesPersonMenu();
                     break;
                 case 3:
-                    menu.mangerMenu();
+                    menu.managerMenu();
                     break;
                 case 4:
                     ;
