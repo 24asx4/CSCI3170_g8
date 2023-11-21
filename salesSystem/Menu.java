@@ -16,7 +16,7 @@ public class Menu{
         System.out.println("4. Exit this program");
         System.out.print("Enter Your Choice: ");
     }
-    public void salesPersonMenu(){
+    public void salesPersonMenu(Connection con){
         while (this.choice==0){
             System.out.println("-----Operations for salesperson menu-----");
             System.out.println("What kinds of operation would you like to perform?");
@@ -42,7 +42,7 @@ public class Menu{
             }
         }
     }
-    public void managerMenu(){
+    public void managerMenu(Connection con){
         while (this.choice==0){
             System.out.println("-----Operations for manager menu-----");
             System.out.println("What kinds of operation would you like to perform?");
@@ -76,7 +76,7 @@ public class Menu{
             }
         }
     }    
-    public void adminMenu(){
+    public void adminMenu(Connection con){
         while (this.choice==0){
             System.out.println("-----Operations for administrator menu-----");
             System.out.println("What kinds of operation would you like to perform?");
