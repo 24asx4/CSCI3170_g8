@@ -12,7 +12,7 @@ public class Menu{
         System.out.println("What kinds of operation would you like to perform?");
         System.out.println("1. Operations for administrator");
         System.out.println("2. Operations for salesperson");
-        System.out.println("3. Operations for manger");
+        System.out.println("3. Operations for manager");
         System.out.println("4. Exit this program");
         System.out.print("Enter Your Choice: ");
     }
@@ -42,9 +42,9 @@ public class Menu{
             }
         }
     }
-    public void mangerMenu(){
+    public void managerMenu(){
         while (this.choice==0){
-            System.out.println("-----Operations for manger menu-----");
+            System.out.println("-----Operations for manager menu-----");
             System.out.println("What kinds of operation would you like to perform?");
             System.out.println("1. List all salespersons");
             System.out.println("2. Count the no. of record of each salesperson under a specific range on years of experience");
