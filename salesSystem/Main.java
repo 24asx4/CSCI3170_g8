@@ -27,7 +27,7 @@ public class Main {
 
 
     public static void main(String[] args){
-        connectToMySQL();
+        Connection con = connectToMySQL();
         int choice=0;
         Scanner input=new Scanner(System.in);
         System.out.println("Welcome to sales system!");
@@ -37,13 +37,13 @@ public class Main {
             choice=input.nextInt();
             switch (choice) {
                 case 1:
-                    menu.adminMenu();
+                    menu.adminMenu(con);
                     break;
                 case 2:
-                    menu.salesPersonMenu();
+                    menu.salesPersonMenu(con);
                     break;
                 case 3:
-                    menu.managerMenu();
+                    menu.managerMenu(con);
                     break;
                 case 4:
                     ;
