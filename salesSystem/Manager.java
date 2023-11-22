@@ -123,11 +123,13 @@ public class Manager {
                     "SELECT S." + salespersonID + ", S." + salespersonName + ", S." + salespersonExperience + ", COUNT(T." + transactionID + ") " +
                     "FROM " +
                         "(SELECT " + salespersonID + ", " + salespersonName + ", " + salespersonExperience + " " +
-                        "FROM Salesperson " +
+                        "FROM salesperson " +
                         "WHERE " + salespersonExperience + " >= " + lowerBound + " AND " + salespersonExperience + " <= " + upperBound +
                         ") S " +
-                    "INNER JOIN Transaction T ON T." + salespersonID + " = S." + salespersonID + " " +
-                    "GROUP BY S." + salespersonID + ", S." + salespersonName + ", S." + salespersonExperience + ";");
+                    "INNER JOIN transaction T ON T." + salespersonID + " = S." + salespersonID + " " +
+                    "GROUP BY S." + salespersonID + ", S." + salespersonName + ", S." + salespersonExperience + " " +
+                    "ORDER BY S." + salespersonID + " DESC;"
+                    );
             
             // display query result
             System.out.println("| ID | Name | Years of Experience | Number of Transaction |");
@@ -168,8 +170,8 @@ public class Manager {
             Statement stmt = con.createStatement();
             ResultSet rs;
             rs = stmt.executeQuery(
-                    "SSELECT M." + manufacturerID + ", M." + manufacturerName + ",  SUM(P." + partPrice + ") " +
-                    "FROM Part AS P, Transaction AS T, Manufacturer AS M " +
+                    "SELECT M." + manufacturerID + ", M." + manufacturerName + ",  SUM(P." + partPrice + ") " +
+                    "FROM part AS P, transaction AS T, manufacturer AS M " +
                     "WHERE P." + partID + " = T." + partID + " AND P." + manufacturerID + " = M." + manufacturerID + " " +
                     "GROUP BY M." + manufacturerID + ", M." + manufacturerName + " " +
                     "ORDER BY SUM(P." + partPrice + ") DESC;"
@@ -216,11 +218,12 @@ public class Manager {
             Statement stmt = con.createStatement();
             ResultSet rs;
             rs = stmt.executeQuery(
-                    "SELECT TOP " + input + " T." + partID + ", P." + partName + ", COUNT(" + transactionID + ") " +
-                    "FROM Transaction AS T, Part AS P " +
+                    "SELECT " + "T." + partID + ", P." + partName + ", COUNT(" + transactionID + ") " +
+                    "FROM transaction AS T, part AS P " +
                     "WHERE T." + partID + " = P." + partID + " " +
                     "GROUP BY T." + partID + ", P." + partName + " " +
-                    "ORDER BY COUNT(" + transactionID + ") DESC"
+                    "ORDER BY COUNT(" + transactionID + ") DESC " +
+                    "LIMIT " + input
             );
 
             // display query result
