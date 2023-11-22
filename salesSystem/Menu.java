@@ -109,7 +109,7 @@ public class Menu {
                         stmt.executeUpdate(sql);
                         sql = "CREATE TABLE IF NOT EXISTS manufacturer (mID int NOT NULL, mName varchar(20) NOT NULL, mAddress varchar(50) NOT NULL, mPhoneNumber int NOT NULL, PRIMARY KEY(mID), CHECK (mID<=99 AND mPhoneNumber>=10000000 AND mPhoneNumber<=99999999))";
                         stmt.executeUpdate(sql);
-                        sql = "CREATE TABLE IF NOT EXISTS part (pID int NOT NULL, pName varchar(20) NOT NULL, pPrice int NOT NULL, mID int NOT NULL, cID int NOT NULL, pWarranty int NOT NULL, pAvailableQuantity int NOT NULL, PRIMARY KEY(pID), FOREIGN KEY(mID) REFERENCES manufacturer(mID), FOREIGN KEY(cID) REFERENCES category(cID), CHECK (pID<=999 AND mPrice<=99999 AND pWarranty<=99 AND pAvailableQuantity<=99))";
+                        sql = "CREATE TABLE IF NOT EXISTS part (pID int NOT NULL, pName varchar(20) NOT NULL, pPrice int NOT NULL, mID int NOT NULL, cID int NOT NULL, pWarrantyPeriod int NOT NULL, pAvailableQuantity int NOT NULL, PRIMARY KEY(pID), FOREIGN KEY(mID) REFERENCES manufacturer(mID), FOREIGN KEY(cID) REFERENCES category(cID), CHECK (pID<=999 AND mPrice<=99999 AND pWarrantyPeriod<=99 AND pAvailableQuantity<=99))";
                         stmt.executeUpdate(sql);
                         sql = "CREATE TABLE IF NOT EXISTS salesperson (sID int NOT NULL, sName varchar(20) NOT NULL, sAddress varchar(50) NOT NULL, sPhoneNumber int NOT NULL, sExperience int NOT NULL, PRIMARY KEY(sID), CHECK (sID<=99 AND sPhoneNumber>=10000000 AND sPhoneNumber<=99999999 AND sExperience>=1 AND sExperience<=9))";
                         stmt.executeUpdate(sql);
@@ -124,7 +124,7 @@ public class Menu {
                     try {
                         Statement stmt = con.createStatement();
                         String[] tables = { "transaction", "salesperson", "part", "manufacturer", "category" };
-                        for (int i = 0; i < tables.length; i++) {
+                        for (int i = 0; i <= 4; i++) {
                             String sql = "DROP TABLE IF EXISTS " + tables[i];
                             stmt.executeUpdate(sql);
                         }
@@ -134,7 +134,119 @@ public class Menu {
                     }
                     break;
                 case 3:
-                    ;
+                    System.out.println();
+                    System.out.print("Type in the Source Data Folder Path: ");
+                    String pathname = input.next();
+
+                    try {
+                        File f = new File(pathname + "/category.txt");
+                        Scanner s = new Scanner(f).useDelimiter("\\n|\\t");
+                        while (s.hasNextInt()) {
+                            int cID = s.nextInt();
+                            String cName = s.next();
+                            try {
+                                Statement stmt = con.createStatement();
+                                String sql = "REPLACE INTO category (cID, cName) VALUES (" + cID + ", '" + cName + "')";
+                                stmt.executeUpdate(sql);
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        File f = new File(pathname + "/manufacturer.txt");
+                        Scanner s = new Scanner(f).useDelimiter("\\n|\\t");
+                        while (s.hasNextInt()) {
+                            int mID = s.nextInt();
+                            String mName = s.next();
+                            String mAddress = s.next();
+                            int mPhoneNumber = s.nextInt();
+                            try {
+                                Statement stmt = con.createStatement();
+                                String sql = "REPLACE INTO manufacturer (mID, mName, mAddress, mPhoneNumber) VALUES ("
+                                        + mID + ", '" + mName + "', '" + mAddress + "', " + mPhoneNumber + ")";
+                                stmt.executeUpdate(sql);
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        File f = new File(pathname + "/part.txt");
+                        Scanner s = new Scanner(f).useDelimiter("\\n|\\t");
+                        while (s.hasNextInt()) {
+                            int pID = s.nextInt();
+                            String pName = s.next();
+                            int pPrice = s.nextInt();
+                            int mID = s.nextInt();
+                            int cID = s.nextInt();
+                            int pWarrantyPeriod = s.nextInt();
+                            int pAvailableQuantity = s.nextInt();
+                            try {
+                                Statement stmt = con.createStatement();
+                                String sql = "REPLACE INTO part (pID, pName, pPrice, mID, cID, pWarrantyPeriod, pAvailableQuantity) VALUES ("
+                                        + pID + ", '" + pName + "', " + pPrice + ", " + mID + ", " + cID + ", "
+                                        + pWarrantyPeriod + ", " + pAvailableQuantity + ")";
+                                stmt.executeUpdate(sql);
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        File f = new File(pathname + "/salesperson.txt");
+                        Scanner s = new Scanner(f).useDelimiter("\\n|\\t");
+                        while (s.hasNextInt()) {
+                            int sID = s.nextInt();
+                            String sName = s.next();
+                            String sAddress = s.next();
+                            int sPhoneNumber = s.nextInt();
+                            int sExperience = s.nextInt();
+                            try {
+                                Statement stmt = con.createStatement();
+                                String sql = "REPLACE INTO salesperson (sID, sName, sAddress, sPhoneNumber, sExperience) VALUES ("
+                                        + sID + ", '" + sName + "', '" + sAddress + "', " + sPhoneNumber + ", "
+                                        + sExperience + ")";
+                                stmt.executeUpdate(sql);
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        File f = new File(pathname + "/transaction.txt");
+                        Scanner s = new Scanner(f).useDelimiter("\\n|\\t");
+                        while (s.hasNextInt()) {
+                            int tID = s.nextInt();
+                            int pID = s.nextInt();
+                            int sID = s.nextInt();
+                            String tDate = s.next();
+                            try {
+                                Statement stmt = con.createStatement();
+                                String sql = "REPLACE INTO transaction (tID, pID, sID, tDate) VALUES (" + tID + ", "
+                                        + pID + ", " + sID + ", '" + tDate + "')";
+                                stmt.executeUpdate(sql);
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    System.out.println("Processing...Done! Data is inputted to the database!");
                     break;
                 case 4:
                     ;

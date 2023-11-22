@@ -1,4 +1,4 @@
-1	Intel	2200 Mission College Blvd. Santa Clara, CA, USA	27658080
+1   Intel	2200 Mission College Blvd. Santa Clara, CA, USA	27658080
 2	AMD	One AMD Place P.O. Box 3453 Sunnyvale, CA, USA	27494000
 3	Gigabyte	6 Bao Chiang Road, Taipei,Taiwan	89124000
 4	MSI	69 Lide Street, Taipei, Taiwan	32345599
