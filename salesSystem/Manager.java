@@ -16,7 +16,7 @@ public class Manager {
     private String partID =                     "pID";
     private String partName =                   "pName";
     private String partPrice =                  "pPrice";
-    private String partWarranty =               "pWarranty";
+    private String partWarranty =               "pWarrantyPeriod";
     private String partAvailableQuantity =      "pAvailableQuantity";
     
     // field names in Salesperson
@@ -40,7 +40,7 @@ public class Manager {
             Scanner sc = new Scanner(System.in);
             System.out.print("Choose ordering: ");
             int choice = sc.nextInt();
-            if (choice != 0 && choice != 1) return;
+            if (choice != 2 && choice != 1) return;
             String decreasing = (choice == 2) ? " DESC;" : " ;";
             
             // get query result (OLD)

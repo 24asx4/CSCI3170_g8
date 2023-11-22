@@ -33,12 +33,13 @@ public class Menu {
             System.out.print("Enter Your Choice: ");
             Scanner input = new Scanner(System.in);
             this.choice = input.nextInt();
+            Salesperson salesperson = new Salesperson();
             switch (this.choice) {
                 case 1:
-                    ;
+                    salesperson.searchPart(con);
                     break;
                 case 2:
-                    ;
+                    salesperson.sellPart(con);
                     break;
                 case 3:
                     return;
