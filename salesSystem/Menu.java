@@ -106,15 +106,15 @@ public class Menu {
                     try {
                         Statement stmt = con.createStatement();
                         String sql = "CREATE TABLE IF NOT EXISTS category (cID int NOT NULL, cName varchar(20) NOT NULL, PRIMARY KEY(cID), CHECK (cID>=1 AND cID<=9))";
-                        stmt.executeUpdate(sql);
+                        stmt.execute(sql);
                         sql = "CREATE TABLE IF NOT EXISTS manufacturer (mID int NOT NULL, mName varchar(20) NOT NULL, mAddress varchar(50) NOT NULL, mPhoneNumber int NOT NULL, PRIMARY KEY(mID), CHECK (mID<=99 AND mPhoneNumber>=10000000 AND mPhoneNumber<=99999999))";
-                        stmt.executeUpdate(sql);
+                        stmt.execute(sql);
                         sql = "CREATE TABLE IF NOT EXISTS part (pID int NOT NULL, pName varchar(20) NOT NULL, pPrice int NOT NULL, mID int NOT NULL, cID int NOT NULL, pWarrantyPeriod int NOT NULL, pAvailableQuantity int NOT NULL, PRIMARY KEY(pID), FOREIGN KEY(mID) REFERENCES manufacturer(mID), FOREIGN KEY(cID) REFERENCES category(cID), CHECK (pID<=999 AND mPrice<=99999 AND pWarrantyPeriod<=99 AND pAvailableQuantity<=99))";
-                        stmt.executeUpdate(sql);
+                        stmt.execute(sql);
                         sql = "CREATE TABLE IF NOT EXISTS salesperson (sID int NOT NULL, sName varchar(20) NOT NULL, sAddress varchar(50) NOT NULL, sPhoneNumber int NOT NULL, sExperience int NOT NULL, PRIMARY KEY(sID), CHECK (sID<=99 AND sPhoneNumber>=10000000 AND sPhoneNumber<=99999999 AND sExperience>=1 AND sExperience<=9))";
-                        stmt.executeUpdate(sql);
+                        stmt.execute(sql);
                         sql = "CREATE TABLE IF NOT EXISTS transaction (tID int NOT NULL, pID int NOT NULL, sID int NOT NULL, tDate varchar(10) NOT NULL, PRIMARY KEY(tID), FOREIGN KEY(pID) REFERENCES part(pID), FOREIGN KEY(sID) REFERENCES salesperson(sID), CHECK (tID<=9999))";
-                        stmt.executeUpdate(sql);
+                        stmt.execute(sql);
                         System.out.println("Processing...Done! Database is initialized!");
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -126,7 +126,8 @@ public class Menu {
                         String[] tables = { "transaction", "salesperson", "part", "manufacturer", "category" };
                         for (int i = 0; i <= 4; i++) {
                             String sql = "DROP TABLE IF EXISTS " + tables[i];
-                            stmt.executeUpdate(sql);
+                            stmt.execute(sql);
+
                         }
                         System.out.println("Processing...Done! Database is removed!");
                     } catch (SQLException e) {
@@ -137,17 +138,19 @@ public class Menu {
                     System.out.println();
                     System.out.print("Type in the Source Data Folder Path: ");
                     String pathname = input.next();
-
                     try {
                         File f = new File(pathname + "/category.txt");
-                        Scanner s = new Scanner(f).useDelimiter("\\n|\\t");
-                        while (s.hasNextInt()) {
-                            int cID = s.nextInt();
-                            String cName = s.next();
+                        Scanner s = new Scanner(f);
+                        while (s.hasNextLine()) {
+                            String[] strings = s.nextLine().split("\t");
+                            if (strings.length == 0)
+                                break;
+                            int cID = Integer.parseInt(strings[0]);
+                            String cName = strings[1];
                             try {
                                 Statement stmt = con.createStatement();
-                                String sql = "REPLACE INTO category (cID, cName) VALUES (" + cID + ", '" + cName + "')";
-                                stmt.executeUpdate(sql);
+                                String sql = String.format("REPLACE INTO category VALUES (%d, '%s')", cID, cName);
+                                stmt.execute(sql);
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
@@ -155,20 +158,22 @@ public class Menu {
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
-
                     try {
                         File f = new File(pathname + "/manufacturer.txt");
-                        Scanner s = new Scanner(f).useDelimiter("\\n|\\t");
-                        while (s.hasNextInt()) {
-                            int mID = s.nextInt();
-                            String mName = s.next();
-                            String mAddress = s.next();
-                            int mPhoneNumber = s.nextInt();
+                        Scanner s = new Scanner(f);
+                        while (s.hasNextLine()) {
+                            String[] strings = s.nextLine().split("\t");
+                            if (strings.length == 0)
+                                break;
+                            int mID = Integer.parseInt(strings[0]);
+                            String mName = strings[1];
+                            String mAddress = strings[2];
+                            int mPhoneNumber = Integer.parseInt(strings[3]);
                             try {
                                 Statement stmt = con.createStatement();
-                                String sql = "REPLACE INTO manufacturer (mID, mName, mAddress, mPhoneNumber) VALUES ("
-                                        + mID + ", '" + mName + "', '" + mAddress + "', " + mPhoneNumber + ")";
-                                stmt.executeUpdate(sql);
+                                String sql = String.format("REPLACE INTO manufacturer VALUES (%d, '%s', '%s', %d)", mID,
+                                        mName, mAddress, mPhoneNumber);
+                                stmt.execute(sql);
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
@@ -176,24 +181,25 @@ public class Menu {
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
-
                     try {
                         File f = new File(pathname + "/part.txt");
-                        Scanner s = new Scanner(f).useDelimiter("\\n|\\t");
-                        while (s.hasNextInt()) {
-                            int pID = s.nextInt();
-                            String pName = s.next();
-                            int pPrice = s.nextInt();
-                            int mID = s.nextInt();
-                            int cID = s.nextInt();
-                            int pWarrantyPeriod = s.nextInt();
-                            int pAvailableQuantity = s.nextInt();
+                        Scanner s = new Scanner(f);
+                        while (s.hasNextLine()) {
+                            String[] strings = s.nextLine().split("\t");
+                            if (strings.length == 0)
+                                break;
+                            int pID = Integer.parseInt(strings[0]);
+                            String pName = strings[1];
+                            int pPrice = Integer.parseInt(strings[2]);
+                            int mID = Integer.parseInt(strings[3]);
+                            int cID = Integer.parseInt(strings[4]);
+                            int pWarrantyPeriod = Integer.parseInt(strings[5]);
+                            int pAvailableQuantity = Integer.parseInt(strings[6]);
                             try {
                                 Statement stmt = con.createStatement();
-                                String sql = "REPLACE INTO part (pID, pName, pPrice, mID, cID, pWarrantyPeriod, pAvailableQuantity) VALUES ("
-                                        + pID + ", '" + pName + "', " + pPrice + ", " + mID + ", " + cID + ", "
-                                        + pWarrantyPeriod + ", " + pAvailableQuantity + ")";
-                                stmt.executeUpdate(sql);
+                                String sql = String.format("REPLACE INTO part VALUES (%d, '%s', %d, %d, %d, %d, %d)",
+                                        pID, pName, pPrice, mID, cID, pWarrantyPeriod, pAvailableQuantity);
+                                stmt.execute(sql);
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
@@ -201,22 +207,23 @@ public class Menu {
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
-
                     try {
                         File f = new File(pathname + "/salesperson.txt");
                         Scanner s = new Scanner(f).useDelimiter("\\n|\\t");
-                        while (s.hasNextInt()) {
-                            int sID = s.nextInt();
-                            String sName = s.next();
-                            String sAddress = s.next();
-                            int sPhoneNumber = s.nextInt();
-                            int sExperience = s.nextInt();
+                        while (s.hasNextLine()) {
+                            String[] strings = s.nextLine().split("\t");
+                            if (strings.length == 0)
+                                break;
+                            int sID = Integer.parseInt(strings[0]);
+                            String sName = strings[1];
+                            String sAddress = strings[2];
+                            int sPhoneNumber = Integer.parseInt(strings[3]);
+                            int sExperience = Integer.parseInt(strings[4]);
                             try {
                                 Statement stmt = con.createStatement();
-                                String sql = "REPLACE INTO salesperson (sID, sName, sAddress, sPhoneNumber, sExperience) VALUES ("
-                                        + sID + ", '" + sName + "', '" + sAddress + "', " + sPhoneNumber + ", "
-                                        + sExperience + ")";
-                                stmt.executeUpdate(sql);
+                                String sql = String.format("REPLACE INTO salesperson VALUES (%d, '%s', '%s', %d, %d)",
+                                        sID, sName, sAddress, sPhoneNumber, sExperience);
+                                stmt.execute(sql);
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
@@ -224,20 +231,22 @@ public class Menu {
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
-
                     try {
                         File f = new File(pathname + "/transaction.txt");
                         Scanner s = new Scanner(f).useDelimiter("\\n|\\t");
-                        while (s.hasNextInt()) {
-                            int tID = s.nextInt();
-                            int pID = s.nextInt();
-                            int sID = s.nextInt();
-                            String tDate = s.next();
+                        while (s.hasNextLine()) {
+                            String[] strings = s.nextLine().split("\t");
+                            if (strings.length == 0)
+                                break;
+                            int tID = Integer.parseInt(strings[0]);
+                            int pID = Integer.parseInt(strings[1]);
+                            int sID = Integer.parseInt(strings[2]);
+                            String tDate = strings[3];
                             try {
                                 Statement stmt = con.createStatement();
-                                String sql = "REPLACE INTO transaction (tID, pID, sID, tDate) VALUES (" + tID + ", "
-                                        + pID + ", " + sID + ", '" + tDate + "')";
-                                stmt.executeUpdate(sql);
+                                String sql = String.format("REPLACE INTO transaction VALUES (%d, %d, %d, '%s')", tID,
+                                        pID, sID, tDate);
+                                stmt.execute(sql);
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
@@ -245,11 +254,30 @@ public class Menu {
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
-
                     System.out.println("Processing...Done! Data is inputted to the database!");
                     break;
                 case 4:
-                    ;
+                    System.out.print("Which table would you like to show: ");
+                    String table = input.next();
+                    System.out.println("Content of table " + table + ": ");
+                    try {
+                        Statement stmt = con.createStatement();
+                        String sql = "SELECT * FROM " + table;
+                        ResultSet rs = stmt.executeQuery(sql);
+                        ResultSetMetaData rsmd = rs.getMetaData();
+                        System.out.print("|");
+                        for (int i = 1; i <= rsmd.getColumnCount(); i++)
+                            System.out.print(" " + rsmd.getColumnName(i) + " |");
+                        System.out.print("\n");
+                        while (rs.next()) {
+                            System.out.print("|");
+                            for (int i = 1; i <= rsmd.getColumnCount(); i++)
+                                System.out.print(" " + rs.getString(i) + " |");
+                            System.out.print("\n");
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case 5:
                     return;
