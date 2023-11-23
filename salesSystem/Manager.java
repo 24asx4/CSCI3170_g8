@@ -33,9 +33,6 @@ public class Manager {
         
         try{
             
-            // testing
-            System.out.println("Hello World (beginning) (testing)");
-            
             // choose increasing or decreasing order
             Scanner sc = new Scanner(System.in);
             System.out.print("Choose ordering: ");
@@ -43,17 +40,7 @@ public class Manager {
             if (choice != 2 && choice != 1) return;
             String decreasing = (choice == 2) ? " DESC;" : " ;";
             
-            // get query result (OLD)
-            /* 
-            rs = stmt.executeQuery(
-                    "SELECT [Salesperson ID], [Salesperson Name], [Salesperson Phone Number], [Salesperson Experience] "
-                    + "FROM salesperson "
-                    + "ORDER BY [Salesperson Experience] "
-                    + decreasing
-            );
-            */
-            
-            // get query result (UPDATED)
+            // get query result
             Statement stmt = con.createStatement();
             ResultSet rs;
             rs = stmt.executeQuery(
@@ -80,9 +67,6 @@ public class Manager {
             
             stmt.close();
             
-            // testing
-            System.out.println("Hello World (end) (testing)");
-            
         }catch (Exception e){
             System.out.println("Error occured: " + e);
         }
@@ -93,9 +77,6 @@ public class Manager {
               
         try{
             
-            // testing
-            System.out.println("Hello World (beginning) (testing)");
-            
             // user input the range of years of experience
             Scanner sc = new Scanner(System.in);
             System.out.print("Type in the lower bound for years of experience: ");
@@ -103,20 +84,7 @@ public class Manager {
             System.out.print("Type in the upper bound for years of experience: ");
             String upperBound = sc.next();
             
-            // get query result (OLD)
-            /*
-            rs = stmt.executeQuery(
-                    "SELECT S.[Salesperson ID], S.[Salesperson Name], S.[Salesperson Experience], COUNT(T.[Transaction ID]) "
-                    + "FROM "
-                        + "(SELECT [Salesperson ID], [Salesperson Name], [Salesperson Experience] "
-                        + "FROM Salesperson "
-                        + "WHERE [Salesperson Experience] >= " + lowerBound + " AND [Salesperson Experience] <= " + upperBound
-                        + ") S " +
-                    "INNER JOIN Transaction T ON T.[Salesperson ID] = S.[Salesperson ID] " +
-                    "GROUP BY S.[Salesperson ID], S.[Salesperson Name], S.[Salesperson Experience];");
-            */
-            
-            // get query result (UPDATED)
+            // get query result
             Statement stmt = con.createStatement();
             ResultSet rs;
             rs = stmt.executeQuery(
@@ -150,9 +118,6 @@ public class Manager {
             
             stmt.close();
             
-            // testing
-            System.out.println("Hello World (end) (testing)");
-        
         }catch (Exception e){
             System.out.println("Error occured: " + e);
         }
@@ -162,9 +127,6 @@ public class Manager {
     public void listManufacturerOrderBySales(Connection con){
         
         try{
-            
-            // testing
-            System.out.println("Hello World (beginning) (testing)");
             
             // get query result
             Statement stmt = con.createStatement();
@@ -192,9 +154,6 @@ public class Manager {
 
             stmt.close();
             
-            // testing
-            System.out.println("Hello World (end) (testing)");
-            
         }catch(Exception e){
             System.out.println("Error occured: " + e);
         }
@@ -204,17 +163,12 @@ public class Manager {
         
         try{
         
-            // testing
-            System.out.println("Hello World (beginning) (testing)");
-            
             // user input the range of years of experience
             Scanner sc = new Scanner(System.in);
             System.out.print("Type in the number of parts: ");
             String input = sc.next();
             
-            
-
-            // get query result (UPDATED)
+            // get query result
             Statement stmt = con.createStatement();
             ResultSet rs;
             rs = stmt.executeQuery(
@@ -242,9 +196,6 @@ public class Manager {
             System.out.println("End of Query");
             
             stmt.close();
-            
-            // testing
-            System.out.println("Hello World (end) (testing)");
             
         }catch(Exception e){
             System.out.println("Error occured: " + e);
