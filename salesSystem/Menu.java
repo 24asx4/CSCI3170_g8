@@ -32,7 +32,12 @@ public class Menu {
             System.out.println("3. Return to main menu");
             System.out.print("Enter Your Choice: ");
             Scanner input = new Scanner(System.in);
-            this.choice = input.nextInt();
+            try{
+                this.choice = input.nextInt();
+            } catch (Exception e){
+                this.choice=0;
+                input.nextLine();
+            }
             Salesperson salesperson = new Salesperson();
             switch (this.choice) {
                 case 1:
@@ -64,7 +69,12 @@ public class Menu {
             System.out.println("5. Return to main menu");
             System.out.print("Enter Your Choice: ");
             Scanner input = new Scanner(System.in);
-            this.choice = input.nextInt();
+            try{
+                this.choice = input.nextInt();
+            } catch (Exception e){
+                this.choice=0;
+                input.nextLine();
+            }
             Manager manager = new Manager();
             switch (this.choice) {
                 case 1:
@@ -101,7 +111,12 @@ public class Menu {
             System.out.println("5. Return to main menu");
             System.out.print("Enter Your Choice: ");
             Scanner input = new Scanner(System.in);
-            this.choice = input.nextInt();
+            try{
+                this.choice = input.nextInt();
+            } catch (Exception e){
+                this.choice=0;
+                input.nextLine();
+            }
             switch (this.choice) {
                 case 1:
                     try {

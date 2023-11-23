@@ -37,8 +37,6 @@ public class Salesperson {
         
         try{
             
-            // testing
-            System.out.println("Hello World (beginning) (testing)");
             
             // choose increasing or decreasing order
             Scanner sc = new Scanner(System.in);
@@ -46,8 +44,18 @@ public class Salesperson {
             System.out.println("1. Part Name");
             System.out.println("2. Manufacturer Name");
             System.out.print("Choose the Search criterion: ");
-            int choice = sc.nextInt();
-            if (choice != 1 && choice != 2) return;
+            int choice;
+            try {
+                choice = sc.nextInt();
+            } catch (Exception e){
+                sc.nextLine();
+                System.out.println("Invalid choice!");
+                return;
+            }
+            if (choice != 1 && choice != 2){ 
+                System.out.println("Invalid choice!");
+                return;
+            }
             String searchField = (choice == 1) ? "P.pName" : "M.mName";
             System.out.print("Type in the Search Keyword: ");
             sc.nextLine();
@@ -56,8 +64,17 @@ public class Salesperson {
             System.out.println("1. By price, ascending order");
             System.out.println("2. By price, descending order");
             System.out.print("Choose the Search criterion: ");
-            choice = sc.nextInt();
-            if (choice != 1 && choice != 2) return;
+            try {
+                choice = sc.nextInt();
+            } catch (Exception e){
+                sc.nextLine();
+                System.out.println("Invalid choice!");
+                return;
+            }
+            if (choice != 1 && choice != 2){
+                System.out.println("Invalid choice!");
+                return;
+            }
             String order = (choice == 2) ? "DESC" : "";
             // get query result (UPDATED)
             Statement stmt = con.createStatement();
@@ -86,8 +103,6 @@ public class Salesperson {
             stmt.close();
             
             System.out.println("End of Query");
-            // testing
-            System.out.println("Hello World (end) (testing)");
             
         }catch (Exception e){
             System.out.println("Error occured: " + e);
@@ -98,38 +113,67 @@ public class Salesperson {
     public void sellPart(Connection con){
         
         try{
-            
-            // testing
-            System.out.println("Hello World (beginning) (testing)");
-            
+
             // choose increasing or decreasing order
             Scanner sc = new Scanner(System.in);
             System.out.print("Enter The Part ID: ");
-            int pIDChoice = sc.nextInt();
+            int pIDChoice;
+            try {
+                pIDChoice = sc.nextInt();
+            } catch (Exception e){
+                sc.nextLine();
+                System.out.println("Invalid choice!");
+                return;
+            }
             System.out.print("Enter The Salesperson ID: ");
-            int sIDChoice = sc.nextInt();
-            // get query result (UPDATED)
+            int sIDChoice;
+            try {
+                sIDChoice = sc.nextInt();
+            } catch (Exception e){
+                sc.nextLine();
+                System.out.println("Invalid choice!");
+                return;
+            }
+
             Statement stmt = con.createStatement();
             ResultSet rs;
+            /* check if the salesperson exist */
+            rs = stmt.executeQuery(
+                String.format("SELECT %s FROM salesperson WHERE %s=%d;",
+                salespersonID,salespersonID,sIDChoice)
+            );
+            if (!rs.next()){
+                System.out.println("The salesperson does not exist!");
+                return;
+            }
+            stmt.close();
+
+            /* get the quanlity */
+            stmt = con.createStatement();
             rs = stmt.executeQuery(
                 String.format("SELECT %s FROM part WHERE %s=%d;",
                 partAvailableQuantity,partID,pIDChoice)
             );
             
-            // display query result
-            int number_available=-1;
+            int number_available=-999;
 
             while(rs.next()){
                 number_available=Integer.parseInt(rs.getString(1));
             }
-            
+            /* check if the part exist */
+            if (number_available==-999){
+                System.out.println("The part does not exist!");
+                return;
+            }
+            /* check if there is enough part to sell */
             if (number_available<=0){
                 System.out.println("The part is out of stock!");
                 return;
-            } 
-                                     
+            }                    
             stmt.close();
-            int lastID=-1;
+
+            /* get the last tID of the table transaction */
+            int lastID=1;
             stmt = con.createStatement();
             rs = stmt.executeQuery(
                     String.format("SELECT %s FROM transaction ORDER BY %s DESC LIMIT %d;"
@@ -139,18 +183,22 @@ public class Salesperson {
                 lastID=Integer.parseInt(rs.getString(1));
             }
             stmt.close();
+            /* reduce the part quantity by 1 in part */
             stmt = con.createStatement();
             stmt.execute(
                 String.format("UPDATE part SET %s=%d WHERE %s=%d;"
                 ,partAvailableQuantity,number_available-1,partID,pIDChoice)
             );
             stmt.close();
+            /* insert a new transaction record */
             stmt = con.createStatement();
             stmt.execute(
                 String.format(
                     "INSERT INTO transaction (%s,%s,%s,%s) VALUE(%d,%d,%d,DATE_FORMAT(CURDATE(),'%%d/%%m/%%Y'));"
                 ,transactionID,partID,salespersonID,transactionDate,lastID+1,pIDChoice,sIDChoice)
             );
+            /* get the required information */
+            stmt.close();
             stmt = con.createStatement();
             rs = stmt.executeQuery(
                     String.format("SELECT %s,%s,%s FROM part WHERE %s=%d;"
@@ -161,8 +209,6 @@ public class Salesperson {
                 rs.getString(1),rs.getString(2),rs.getString(3));
             }
             System.out.println("End of Query");
-            // testing
-            System.out.println("Hello World (end) (testing)");
             
         }catch (Exception e){
             System.out.println("Error occured: " + e);

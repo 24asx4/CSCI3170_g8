@@ -32,7 +32,12 @@ public class Main {
         while (choice != 4) {
             Menu menu = new Menu();
             menu.mainMenu();
-            choice = input.nextInt();
+            try{
+                choice = input.nextInt();
+            } catch (Exception e){
+                choice=0;
+                input.nextLine();
+            }
             switch (choice) {
                 case 1:
                     menu.adminMenu(con);
