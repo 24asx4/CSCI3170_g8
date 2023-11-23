@@ -59,18 +59,17 @@ public class Salesperson {
             choice = sc.nextInt();
             if (choice != 1 && choice != 2) return;
             String order = (choice == 2) ? "DESC" : "";
-            System.out.println(searchField);
             // get query result (UPDATED)
             Statement stmt = con.createStatement();
             ResultSet rs;
             rs = stmt.executeQuery(
-                    "SELECT " + "P." + partID + "," + "P." + partName + "," + "M." + manufacturerName + "," + 
-                    "C." + categoryName + "," + "P." + partAvailableQuantity + "," + "P." + partWarranty + "," + 
-                    "P." + partPrice + " " +
-                    "FROM ((part P INNER JOIN category C ON P." + categoryID + "=C." + categoryID + ") "+
-                    "INNER JOIN manufacturer M ON P." + manufacturerID + "=" + "M." + manufacturerID +") " +
-                    "WHERE " + searchField + "=" + "'" + searchValue + "'" +
-                    "ORDER BY " + "P." + partPrice + " " + order + ";"
+                
+                String.format("SELECT P.%s,P.%s,M.%s,C.%s,P.%s,P.%s,P.%s ",
+                partID, partName, manufacturerName, categoryName, partAvailableQuantity, partWarranty, partPrice) +
+                String.format("FROM ((part P INNER JOIN category C ON P.%s=C.%s) INNER JOIN manufacturer M ON P.%s=M.%s)",
+                categoryID, categoryID, manufacturerID, manufacturerID) +
+                String.format("WHERE %s LIKE '%%%s%%'", searchField, searchValue) +
+                String.format("ORDER BY P.%s %s ;", partPrice, order)
             );
             
             // display query result
@@ -123,12 +122,12 @@ public class Salesperson {
             while(rs.next()){
                 number_available=Integer.parseInt(rs.getString(1));
             }
-            /*
+            
             if (number_available<=0){
                 System.out.println("The part is out of stock!");
                 return;
             } 
-            */                         
+                                     
             stmt.close();
             int lastID=-1;
             stmt = con.createStatement();
