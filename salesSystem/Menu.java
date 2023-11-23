@@ -150,8 +150,10 @@ public class Menu {
                             String cName = strings[1];
                             try {
                                 Statement stmt = con.createStatement();
+                                stmt.execute("SET FOREIGN_KEY_CHECKS=0");
                                 String sql = String.format("REPLACE INTO category VALUES (%d, '%s')", cID, cName);
                                 stmt.execute(sql);
+                                stmt.execute("SET FOREIGN_KEY_CHECKS=1");
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
@@ -172,9 +174,11 @@ public class Menu {
                             int mPhoneNumber = Integer.parseInt(strings[3]);
                             try {
                                 Statement stmt = con.createStatement();
+                                stmt.execute("SET FOREIGN_KEY_CHECKS=0");
                                 String sql = String.format("REPLACE INTO manufacturer VALUES (%d, '%s', '%s', %d)", mID,
                                         mName, mAddress, mPhoneNumber);
                                 stmt.execute(sql);
+                                stmt.execute("SET FOREIGN_KEY_CHECKS=1");
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
@@ -198,9 +202,11 @@ public class Menu {
                             int pAvailableQuantity = Integer.parseInt(strings[6]);
                             try {
                                 Statement stmt = con.createStatement();
+                                stmt.execute("SET FOREIGN_KEY_CHECKS=0");
                                 String sql = String.format("REPLACE INTO part VALUES (%d, '%s', %d, %d, %d, %d, %d)",
                                         pID, pName, pPrice, mID, cID, pWarrantyPeriod, pAvailableQuantity);
                                 stmt.execute(sql);
+                                stmt.execute("SET FOREIGN_KEY_CHECKS=1");
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
@@ -222,9 +228,11 @@ public class Menu {
                             int sExperience = Integer.parseInt(strings[4]);
                             try {
                                 Statement stmt = con.createStatement();
+                                stmt.execute("SET FOREIGN_KEY_CHECKS=0");
                                 String sql = String.format("REPLACE INTO salesperson VALUES (%d, '%s', '%s', %d, %d)",
                                         sID, sName, sAddress, sPhoneNumber, sExperience);
                                 stmt.execute(sql);
+                                stmt.execute("SET FOREIGN_KEY_CHECKS=1");
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
@@ -245,9 +253,11 @@ public class Menu {
                             String tDate = strings[3];
                             try {
                                 Statement stmt = con.createStatement();
+                                stmt.execute("SET FOREIGN_KEY_CHECKS=0");
                                 String sql = String.format("REPLACE INTO transaction VALUES (%d, %d, %d, '%s')", tID,
                                         pID, sID, tDate);
                                 stmt.execute(sql);
+                                stmt.execute("SET FOREIGN_KEY_CHECKS=1");
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
