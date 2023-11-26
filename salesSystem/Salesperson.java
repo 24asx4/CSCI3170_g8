@@ -38,7 +38,7 @@ public class Salesperson {
         try{
             
             
-            // choose increasing or decreasing order
+            /* choose search for part or manufacturer */
             Scanner sc = new Scanner(System.in);
             System.out.println("Choose the Search criterion: ");
             System.out.println("1. Part Name");
@@ -57,9 +57,11 @@ public class Salesperson {
                 return;
             }
             String searchField = (choice == 1) ? "P.pName" : "M.mName";
+            /* input the name for searching */
             System.out.print("Type in the Search Keyword: ");
             sc.nextLine();
             String searchValue = sc.nextLine();
+            /* choose increasing or decreasing order by price */
             System.out.println("Choose order: ");
             System.out.println("1. By price, ascending order");
             System.out.println("2. By price, descending order");
@@ -76,7 +78,7 @@ public class Salesperson {
                 return;
             }
             String order = (choice == 2) ? "DESC" : "";
-            // get query result (UPDATED)
+            /* get query result */
             Statement stmt = con.createStatement();
             ResultSet rs;
             rs = stmt.executeQuery(
@@ -105,7 +107,8 @@ public class Salesperson {
             System.out.println("End of Query");
             
         }catch (Exception e){
-            System.out.println("Error occured: " + e);
+            System.out.println("The table(s) have not been set up properly yet! Please create the tables using the operation 1 of the Administrator.");
+            //System.out.println("Error occured: " + e);
         }
         
     }
@@ -114,7 +117,7 @@ public class Salesperson {
         
         try{
 
-            // choose increasing or decreasing order
+            /* input part id for selling */
             Scanner sc = new Scanner(System.in);
             System.out.print("Enter The Part ID: ");
             int pIDChoice;
@@ -122,16 +125,17 @@ public class Salesperson {
                 pIDChoice = sc.nextInt();
             } catch (Exception e){
                 sc.nextLine();
-                System.out.println("Invalid choice!");
+                System.out.println("Invalid Part ID!");
                 return;
             }
+            /* input salesperson id of the salesperson who are going to sell the part */
             System.out.print("Enter The Salesperson ID: ");
             int sIDChoice;
             try {
                 sIDChoice = sc.nextInt();
             } catch (Exception e){
                 sc.nextLine();
-                System.out.println("Invalid choice!");
+                System.out.println("Invalid Salesperson ID!");
                 return;
             }
 
@@ -204,14 +208,16 @@ public class Salesperson {
                     String.format("SELECT %s,%s,%s FROM part WHERE %s=%d;"
                     ,partName,partID,partAvailableQuantity,partID,pIDChoice)
             );
+            /* print the confirm message (including product id, name, quantity) */
             while(rs.next()){
-                System.out.printf("Product: %s(id: %s) Remaining Quality: %s \n",
+                System.out.printf("Product: %s(id: %s) Remaining Quantity: %s \n",
                 rs.getString(1),rs.getString(2),rs.getString(3));
             }
             System.out.println("End of Query");
             
         }catch (Exception e){
-            System.out.println("Error occured: " + e);
+            System.out.println("The table(s) have not been set up properly yet! Please create the tables using the operation 1 of the Administrator.");
+            //System.out.println("Error occured: " + e);
         }
         
     }

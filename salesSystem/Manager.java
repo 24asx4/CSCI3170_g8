@@ -35,9 +35,22 @@ public class Manager {
             
             // choose increasing or decreasing order
             Scanner sc = new Scanner(System.in);
-            System.out.print("Choose ordering: ");
-            int choice = sc.nextInt();
-            if (choice != 2 && choice != 1) return;
+            System.out.println("Choose ordering: ");
+            System.out.println("1. By ascending order");
+            System.out.println("2. By descending order");
+            System.out.print("Choose the list ordering: ");
+            int choice;
+            try {
+                choice = sc.nextInt();
+            } catch (Exception e){
+                sc.nextLine();
+                System.out.println("Invalid choice!");
+                return;
+            }
+            if (choice != 1 && choice != 2){
+                System.out.println("Invalid choice!");
+                return;
+            }
             String decreasing = (choice == 2) ? " DESC;" : " ;";
             
             // get query result
@@ -66,9 +79,10 @@ public class Manager {
                 }                          
             
             stmt.close();
-            
+            System.out.println("End of Query");
         }catch (Exception e){
-            System.out.println("Error occured: " + e);
+            System.out.println("The table(s) have not been set up properly yet! Please create the tables using the operation 1 of the Administrator.");
+            //System.out.println("Error occured: " + e);
         }
         
     }
@@ -80,9 +94,29 @@ public class Manager {
             // user input the range of years of experience
             Scanner sc = new Scanner(System.in);
             System.out.print("Type in the lower bound for years of experience: ");
-            String lowerBound = sc.next();
+            int lowerBound;
+            try {
+                lowerBound = sc.nextInt();
+                if (lowerBound<0){
+                    throw new Exception();
+                }
+            } catch (Exception e){
+                sc.nextLine();
+                System.out.println("Invalid lower bound!");
+                return;
+            }
             System.out.print("Type in the upper bound for years of experience: ");
-            String upperBound = sc.next();
+            int upperBound;
+            try {
+                upperBound = sc.nextInt();
+                if (upperBound<lowerBound||upperBound<0){
+                    throw new Exception();
+                }
+            } catch (Exception e){
+                sc.nextLine();
+                System.out.println("Invalid upper bound!");
+                return;
+            }
             
             // get query result
             Statement stmt = con.createStatement();
@@ -119,7 +153,8 @@ public class Manager {
             stmt.close();
             
         }catch (Exception e){
-            System.out.println("Error occured: " + e);
+            System.out.println("The table(s) have not been set up properly yet! Please create the tables using the operation 1 of the Administrator.");
+            //System.out.println("Error occured: " + e);
         }
         
     }
@@ -153,9 +188,10 @@ public class Manager {
             }
 
             stmt.close();
-            
+            System.out.println("End of Query");
         }catch(Exception e){
-            System.out.println("Error occured: " + e);
+            System.out.println("The table(s) have not been set up properly yet! Please create the tables using the operation 1 of the Administrator.");
+            //System.out.println("Error occured: " + e);
         }
     }
     
@@ -166,7 +202,18 @@ public class Manager {
             // user input the range of years of experience
             Scanner sc = new Scanner(System.in);
             System.out.print("Type in the number of parts: ");
-            String input = sc.next();
+            int input;
+            try {
+                input = sc.nextInt();
+                if (input<1){
+                    throw new Exception();
+                }
+            } catch (Exception e){
+                sc.nextLine();
+                System.out.println("Invalid number!");
+                return;
+            }
+            
             
             // get query result
             Statement stmt = con.createStatement();
@@ -192,13 +239,11 @@ public class Manager {
                         + rs.getString(3)
                         + " | ");
             }
-            
-            System.out.println("End of Query");
-            
             stmt.close();
-            
+            System.out.println("End of Query");
         }catch(Exception e){
-            System.out.println("Error occured: " + e);
+            System.out.println("The table(s) have not been set up properly yet! Please create the tables using the operation 1 of the Administrator.");
+            //System.out.println("Error occured: " + e);
         }
     }
     

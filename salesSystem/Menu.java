@@ -174,6 +174,7 @@ public class Menu {
                             }
                         }
                     } catch (FileNotFoundException e) {
+                        //System.out.print("The file \"category.txt\" does not exist in \"%s\"\n", pathname);
                         e.printStackTrace();
                     }
                     try {
@@ -199,6 +200,7 @@ public class Menu {
                             }
                         }
                     } catch (FileNotFoundException e) {
+                        //System.out.print("The file \"manufacturer.txt\" does not exist in \"%s\"\n", pathname);
                         e.printStackTrace();
                     }
                     try {
@@ -227,6 +229,7 @@ public class Menu {
                             }
                         }
                     } catch (FileNotFoundException e) {
+                        //System.out.print("The file \"part.txt\" does not exist in \"%s\"\n", pathname);
                         e.printStackTrace();
                     }
                     try {
@@ -253,6 +256,7 @@ public class Menu {
                             }
                         }
                     } catch (FileNotFoundException e) {
+                        //System.out.print("The file \"salesperson.txt\" does not exist in \"%s\"\n", pathname);
                         e.printStackTrace();
                     }
                     try {
@@ -277,10 +281,11 @@ public class Menu {
                                 e.printStackTrace();
                             }
                         }
+                        System.out.println("Processing...Done! Data is inputted to the database!");
                     } catch (FileNotFoundException e) {
+                        //System.out.print("The file \"transaction.txt\" does not exist in \"%s\"\n", pathname);
                         e.printStackTrace();
                     }
-                    System.out.println("Processing...Done! Data is inputted to the database!");
                     break;
                 case 4:
                     System.out.print("Which table would you like to show: ");
@@ -302,6 +307,7 @@ public class Menu {
                             System.out.print("\n");
                         }
                     } catch (SQLException e) {
+                        //System.out.println("The table you have choosen does not exist! Please check if you input the table name correctly. If you are sure the name is correct, please create the tables using the operation 1 of the Administrator.");
                         e.printStackTrace();
                     }
                     break;
