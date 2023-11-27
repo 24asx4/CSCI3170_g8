@@ -30,8 +30,8 @@ public class Salesperson {
     private String categoryName =               "cName";
     
     // field names in Transaction
-    private String transactionID = "tID";
-    private String transactionDate = "tDate";
+    private String transactionID =              "tID";
+    private String transactionDate =            "tDate";
     
     public void searchPart(Connection con){
         
